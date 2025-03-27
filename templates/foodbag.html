@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+{% block content %}
+  <div class="foodbag-container">
+    <h2>Your Food Bag</h2>
+
+    <table class="foodbag-table">
+      <thead>
+        <tr>
+          <th>Dish</th>
+          <th>Quantity</th>
+          <th>Price</th>
+          <th>Total</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in foodbag_items %}
+          <tr data-item-id="{{ item.id }}" data-price="{{ item.dish.discounted_price }}">
+            <td>{{ item.dish.name }}</td>
+            <td>
+              <button class="qty-btn minus">-</button>
+              <input type="number" class="qty-input" value="{{ item.quantity }}" min="1" />
+              <button class="qty-btn plus">+</button>
+            </td>
+            <td>₹{{ item.dish.discounted_price }}</td>
+            <td class="item-total">₹{{ item.quantity|floatformat:0|add:item.dish.discounted_price }}</td>
+            <td>
+              <a href="{% url 'remove_dish' item.id %}" class="remove-btn">Remove</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3 class="total-price">Total: ₹<span id="grandTotal">{{ total_price }}</span></h3>
+
+    <div class="checkout-btn-container">
+      <button class="checkout-btn">Proceed to Payment</button>
+    </div>
+  </div>
+
+  <style>
+    /* General Page Styling */
+    .foodbag-container {
+      width: 80%;
+      height: 100vh;
+      margin: 20px auto;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    
+    h2 {
+      color: #333;
+      margin-bottom: 20px;
+    }
+    
+    /* Table Styling */
+    .foodbag-table {
+      width: 100%;
+      border-collapse: collapse;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background: #fff;
+    }
+    
+    .foodbag-table th,
+    .foodbag-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: center;
+    }
+    
+    .foodbag-table th {
+      background: #444;
+      color: white;
+    }
+    
+    .foodbag-table tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    
+    /* Quantity Controls */
+    .qty-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    
+    .qty-btn:hover {
+      background: #2980b9;
+    }
+    
+    .qty-input {
+      width: 50px;
+      text-align: center;
+      font-size: 14px;
+      padding: 5px;
+      border: 1px solid #ccc;
+    }
+    
+    /* Total Price */
+    .total-price {
+      font-size: 20px;
+      font-weight: bold;
+      color: #27ae60;
+      margin-top: 20px;
+    }
+    
+    /* Buttons */
+    .remove-btn {
+      background: #e74c3c;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    
+    .remove-btn:hover {
+      background: #c0392b;
+    }
+    
+    .checkout-btn-container {
+      margin-top: 20px;
+    }
+    
+    .checkout-btn {
+      background: #2ecc71;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    
+    .checkout-btn:hover {
+      background: #27ae60;
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const updateTotals = () => {
+        let grandTotal = 0
+        document.querySelectorAll('tbody tr').forEach((row) => {
+          const price = parseFloat(row.dataset.price)
+          const qty = parseInt(row.querySelector('.qty-input').value)
+          const total = price * qty
+          row.querySelector('.item-total').innerText = 'Rs.' + total.toFixed(2)
+          grandTotal += total
+        })
+        document.getElementById('grandTotal').innerText = '₹' + grandTotal.toFixed(2)
+      }
+    
+      document.querySelectorAll('.qty-btn').forEach((button) => {
+        button.addEventListener('click', function () {
+          const row = this.closest('tr')
+          const input = row.querySelector('.qty-input')
+          let qty = parseInt(input.value)
+    
+          if (this.classList.contains('plus')) {
+            qty++
+          } else if (this.classList.contains('minus') && qty > 1) {
+            qty--
+          }
+    
+          input.value = qty
+          updateTotals()
+        })
+      })
+    
+      document.querySelectorAll('.qty-input').forEach((input) => {
+        input.addEventListener('change', function () {
+          if (this.value < 1) this.value = 1
+          updateTotals()
+        })
+      })
+    })
+  </script>
+{% endblock %}

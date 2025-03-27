@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% block head %}
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+  <!-- Main css -->
+  <link rel="stylesheet" href="/static/auth/css/style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    
+    .container {
+      width: 90%;
+      margin: auto;
+      padding: 20px;
+    }
+    
+    .main {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+    
+    .sign-in {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    
+    .signin-image img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+    
+    .form-title {
+      margin-bottom: 15px;
+      font-size: 24px;
+      color: #333;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+    
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      color: #555;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 14px;
+    }
+    
+    .form-submit {
+      width: 100%;
+      background: #719a0a;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .form-submit:hover {
+      background: #5a7f08;
+    }
+    
+    .signup-image-link {
+      display: block;
+      margin-top: 10px;
+      font-size: 14px;
+      color: #719a0a;
+      text-decoration: none;
+    }
+    
+    .signup-image-link:hover {
+      text-decoration: underline;
+    }
+    
+    .alert {
+      padding: 10px;
+      color: white;
+      background: red;
+      border-radius: 5px;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <div class="main">
+    <!-- Sign-in Form -->
+    <section class="sign-in">
+      <div class="container">
+        <div class="signin-content">
+          <div class="signin-image">
+            {% comment %} <figure>
+              <img src="/static/auth/images/signin-image.jpg" alt="sign up image" />
+            </figure> {% endcomment %}
+            <a href="{% url 'register' %}" class="signup-image-link">Create an account</a>
+          </div>
+
+          <div class="signin-form">
+            <h2 class="form-title">Sign in</h2>
+            <form method="POST" id="login-form">
+              {% csrf_token %}
+              {% if message %}
+                <div class="form-group">
+                  <p class="alert">{{ message }}</p>
+                </div>
+              {% endif %}
+              <div class="form-group">
+                <label for="Email"><i class="fas fa-user"></i> Email:</label>
+                <input type="email" name="email" id="email" placeholder="Your Email" required />
+              </div>
+              <div class="form-group">
+                <label for="your_pass"><i class="fas fa-lock"></i> Password</label>
+                <input type="password" name="password" id="your_pass" placeholder="Password" required />
+              </div>
+              <div class="form-group">
+                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- JS -->
+  <script src="/static/auth/js/main.js"></script>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Add New Food Item</h2>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Add Food</button>
+</form>
+
+<a href="{% url 'manage_stock' %}" class="btn btn-secondary">Back to Stock</a>
+{% endblock %}

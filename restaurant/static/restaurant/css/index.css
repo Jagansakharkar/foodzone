@@ -1,0 +1,63 @@
+.wrapper {
+  min-height: 100vh;
+}
+
+.hero {
+  min-height: 100vh;
+  background-image: linear-gradient(rgba(14, 17, 32, 0.662), rgba(14, 17, 32, 0.062)), url('../img/food1.jpg');
+  background-position: top center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: white;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.welcome {
+  font-size: 100px;
+  font-weight: 600;
+}
+
+.vertical-align-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.meal-content {
+  border-radius: 10px;
+}
+
+.meal-image {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.meal-name {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+
+}
+
+.meal-price {
+  color: green;
+  font-size: 20px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 800;
+}
+
+.meal-stock {
+  font-size: 20px;
+  font-weight: 800;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.stock {
+  color: brown;
+}
+
+.border-button-align {
+  display: flex;
+  justify-content: right;
+}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2>Manage Food Stock</h2>
+
+  <a href="{% url 'add_food' %}" class="btn btn-primary">Add New Food Item</a>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Stock</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for food in food_items %}
+        <tr>
+          <td>{{ food.name }}</td>
+          <td>${{ food.price }}</td>
+          <td>{{ food.stock }}</td>
+          <td>
+            <a href="{% url 'update_stock' food.id %}" class="btn btn-warning">Update</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

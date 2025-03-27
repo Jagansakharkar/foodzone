@@ -1,0 +1,9 @@
+.login-image{
+  
+  background-image: linear-gradient(rgba(14,17,32,0.062),rgba(14,17,32,0.815)), url('../img/food1.jpg');
+
+}
+body{
+  overflow: hidden;
+}
+

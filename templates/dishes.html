@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+
+<style>
+    .category-container{ 
+        width: 80%;
+        margin:1rem auto;
+        display: flex;
+        justify-content:space-between;
+    }
+    .single_category{
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border: 1px solid grey;
+    }
+</style>
+<!-- Page Header Start -->
+<div class="page-header mb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h2>{% if dish_category %} {{dish_category}} {% else %}Dishes {% endif %}({{dishes|length}})</h2>
+            </div>
+            <div class="col-12">
+                <a href="/">Home</a>
+                <a href="/dishes">Dishes</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Food Start -->
+<div class="food mt-0">
+
+    <div class="container">
+        <div class="row align-items-center">
+            {% for i in dishes %}
+                <div class="col-md-4">
+                    <a href="{% url 'dish' i.id %}" class="text-decoration-none text-dark">
+                        {% if i.is_available %}
+                            <div class="food-item">
+                        {% else %}
+                            <div class="food-item" style="background-color: lightgray;">
+                        {% endif %}
+                                <img src="/media/{{ i.image }}" style="height: 200px; width: 100%;">
+                                <h2 class="my-3">{{ i.name }}</h2>
+                                <p>{{ i.details }}</p>
+                                <h4 class="menu-text" style="font-weight: normal;">
+                                    {% if i.price != i.discounted_price %}
+                                        <strong><del>₹{{ i.price }}</del></strong>
+                                    {% endif %}
+                                    <strong>₹{{ i.discounted_price }}</strong>
+                                </h4>
+                                <p>
+                                    <script>
+                                        var ing = '{{ i.ingredients }}'.split(',');
+                                        for (ingredient in ing) {
+                                            document.write("<span class='btn btn-sm mr-1 mb-1 btn-outline-success'>" + ing[ingredient] + "</span>");
+                                        }
+                                    </script>
+                                </p>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</div>
+</div>
+<!-- Food End -->
+{% endblock %}

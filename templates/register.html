@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+{% extends "base.html" %}
+{% block head %}
+<link rel="stylesheet" href="/static/fonts/material-icon/css/material-design-iconic-font.min.css">
+<!-- Main CSS -->
+<link rel="stylesheet" href="/static/auth/css/style.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: #f4f4f4;
+    }
+
+    .container {
+        width: 90%;
+        margin: auto;
+    }
+
+    .main {
+        padding: 0;
+        margin: 0;
+    }
+
+    .signup {
+        padding-top: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .main-container {
+        width: 60%;
+        background: white;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .signup-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .signup-form {
+        width: 50%;
+        padding: 20px;
+    }
+
+    .signup-image {
+        width: 50%;
+        text-align: center;
+    }
+
+    .signup-image img {
+        width: 100%;
+        max-width: 300px;
+        border-radius: 8px;
+    }
+
+    .signup-image-link {
+        display: block;
+        margin-top: 10px;
+        text-decoration: none;
+        color: #719a0a;
+    }
+
+    .form-title {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        color: #666;
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 12px 40px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .form-button {
+        text-align: center;
+    }
+
+    .form-submit {
+        width: 100%;
+        padding: 12px;
+        background: #719a0a;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .form-submit:hover {
+        background: #5d8708;
+    }
+
+    #msz {
+        color: red;
+        font-size: 14px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+{% if status %}
+<script>
+    alert('{{status}}');
+</script>
+{% endif %}
+
+{% if error %}
+<script>
+    alert('{{error}}');
+</script>
+{% endif %}
+
+
+<div class="main">
+    <!-- Sign up form -->
+    <section class="signup">
+        <div class="container main-container">
+            <div class="signup-content">
+                <div class="signup-form">
+                    <h2 class="form-title">Sign up</h2>
+                    <form method="POST" class="register-form" action="">
+                        <div id="msz"></div>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                            <input type="text" name="name" id="name" placeholder="Your Name" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="email"><i class="zmdi zmdi-email"></i></label>
+                            <input type="email" name="email" id="email" placeholder="Your Email" required onkeyup="check_email()" />
+                        </div>
+                        <div class="form-group">
+                            <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input type="password" name="pass" id="pass" placeholder="Password" onkeyup="checkPass()" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                            <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" onkeyup="checkPass()" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="number"><i class="zmdi zmdi-phone"></i></label>
+                            <input type="text" name="number" id="number" placeholder="Contact Number" pattern="[0-9]{10}" title="Number must contain 10 digits only!" required />
+                        </div>
+                        <div class="form-group form-button">
+                            <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                        </div>
+                    </form>
+                    <div class="signup-image">
+                        <a href="{% url 'login' %}" class="signup-image-link">I am already a member</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script>
+    function checkPass() {
+        var p = document.getElementById('pass').value;
+        var cp = document.getElementById('re_pass').value;
+        var signupBtn = document.getElementById('signup');
+        var msz = document.getElementById('msz');
+
+        if (p === cp) {
+            signupBtn.removeAttribute('disabled');
+            signupBtn.style.background = '#719a0a';
+            msz.innerHTML = '';
+        } else {
+            signupBtn.setAttribute('disabled', true);
+            signupBtn.style.background = 'red';
+            msz.innerHTML = "<small>Password didn't match!</small>";
+        }
+    }
+
+    function check_email() {
+        var email = document.getElementById('email').value;
+        var signupBtn = document.getElementById('signup');
+        var msz = document.getElementById('msz');
+
+        fetch('{% url "check_user_exist" %}?usern=' + email)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 0) {
+                    signupBtn.removeAttribute('disabled');
+                    signupBtn.style.background = '#719a0a';
+                    msz.innerHTML = '';
+                } else {
+                    signupBtn.setAttribute('disabled', true);
+                    signupBtn.style.background = 'red';
+                    msz.innerHTML = "<small>" + data.message + "</small>";
+                }
+            });
+    }
+</script>
+{% endblock %}
