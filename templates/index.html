@@ -1,12 +1,45 @@
 {% extends 'base.html' %}
 {% block content %}
-<style>
-  .nav-link{
-    background-color: yellow;
-    color: white;
-  }
-</style>
+  <style>
+    .nav-link {
+      background-color: yellow;
+      color: white;
+    }
+    .testimonial-section {
+      background-color: #f8f9fa;
+    }
+    
+    .testimonial-item {
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    .testimonial-item:hover {
+      transform: translateY(-5px);
+    }
+    
+    .testimonial-img img {
+      object-fit: cover;
+      border: 3px solid #ffc107;
+    }
+    
+    .testimonial-item p {
+      font-style: italic;
+      color: #555;
+    }
+    
+    .testimonial-item h5 {
+      font-weight: 600;
+      color: #343a40;
+    }
+    
+    .testimonial-item small {
+      font-size: 0.9rem;
+      color: #6c757d;
+    }
+  </style>
+
   <!-- Carousel Start -->
+
   <div class="carousel">
     <div class="container-fluid">
       <div class="owl-carousel">
@@ -28,81 +61,91 @@
   <!-- Carousel End -->
 
   <!-- Feature Start -->
+
   <div class="feature">
     <div class="container">
       <div class="row">
+        <!-- Left Content -->
         <div class="col-lg-5">
           <div class="section-header">
             <p>Why Choose Us</p>
-            <h2>Our Key Features</h2>
+            <h2>Top Reasons to Order With Us</h2>
           </div>
           <div class="feature-text">
             <div class="feature-img">
               <div class="row">
                 <div class="col-6">
-                  <img src="/static/img/feature-1.jpg" alt="Image" />
+                  <img src="/static/img/delivery-1.jpg" alt="Quick Delivery" />
                 </div>
                 <div class="col-6">
-                  <img src="/static/img/feature-2.jpg" alt="Image" />
+                  <img src="/static/img/delivery-2.jpg" alt="Variety of Cuisines" />
                 </div>
                 <div class="col-6">
-                  <img src="/static/img/feature-3.jpg" alt="Image" />
+                  <img src="/static/img/delivery-3.jpg" alt="Safe Packaging" />
                 </div>
                 <div class="col-6">
-                  <img src="/static/img/feature-4.jpg" alt="Image" />
+                  <img src="/static/img/delivery-4.jpg" alt="Track Orders" />
                 </div>
               </div>
             </div>
-            <p>Lorem ipsum dolor sit amet consec adipis elit. Phasel nec preti mi. Curabit facilis ornare velit non vulputa. Aliquam metus tortor, auctor id gravida condime, viverra quis sem. Curabit non nisl nec nisi sceleri maximus</p>
-            <a class="btn custom-btn" href="">Book A Table</a>
+            <p>
+              We bring your favorite meals right to your doorstep, fast and fresh. 
+              With an easy-to-use platform, real-time tracking, and a wide variety of options, 
+              your cravings are just a click away.
+            </p>
+            <a class="btn custom-btn" href="{% url 'menu' %}">Order Now</a>
           </div>
         </div>
+  
+        <!-- Right Features -->
         <div class="col-lg-7">
           <div class="row">
             <div class="col-sm-6">
               <div class="feature-item">
-                <i class="flaticon-cooking"></i>
-                <h3>World’s best Chef</h3>
-                <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput metus tortor</p>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="feature-item">
-                <i class="flaticon-vegetable"></i>
-                <h3>Natural ingredients</h3>
-                <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput metus tortor</p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="feature-item">
-                <i class="flaticon-medal"></i>
-                <h3>Best quality products</h3>
-                <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput metus tortor</p>
-              </div>
-            </div>
-            <div class="col-sm-6">
-              <div class="feature-item">
-                <i class="flaticon-meat"></i>
-                <h3>Fresh vegetables & Meet</h3>
-                <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput metus tortor</p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-6">
-              <div class="feature-item">
                 <i class="flaticon-courier"></i>
-                <h3>Fastest door delivery</h3>
-                <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput metus tortor</p>
+                <h3>Lightning-Fast Delivery</h3>
+                <p>We deliver your food within minutes, hot and fresh, thanks to our real-time tracking system.</p>
               </div>
             </div>
             <div class="col-sm-6">
               <div class="feature-item">
-                <i class="flaticon-fruits-and-vegetables"></i>
-                <h3>Ground beef & Low fat</h3>
-                <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput metus tortor</p>
+                <i class="flaticon-menu"></i>
+                <h3>Wide Cuisine Variety</h3>
+                <p>Choose from thousands of dishes across all your favorite restaurants and food types.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="feature-item">
+                <i class="flaticon-credit-card"></i>
+                <h3>Easy & Secure Payments</h3>
+                <p>Multiple payment options with full security and reliability.</p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="feature-item">
+                <i class="flaticon-review"></i>
+                <h3>Trusted by Thousands</h3>
+                <p>Rated 4.8+ by thousands of happy customers across the city.</p>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row">
+            <div class="col-sm-6">
+              <div class="feature-item">
+                <i class="flaticon-discount"></i>
+                <h3>Exclusive Offers</h3>
+                <p>Enjoy discounts, promo codes, and free delivery on selected orders daily.</p>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="feature-item">
+                <i class="flaticon-support"></i>
+                <h3>24/7 Customer Support</h3>
+                <p>Facing any issue? Our support team is just a tap away anytime you need help.</p>
               </div>
             </div>
           </div>
@@ -110,9 +153,11 @@
       </div>
     </div>
   </div>
+  
   <!-- Feature End -->
 
   <!-- Menu Start -->
+
   <div class="menu" id="menu">
     <div class="container">
       <div class="section-header text-center">
@@ -122,9 +167,9 @@
       <div class="menu-tab">
         <ul class="nav nav-pills justify-content-center">
           {% for category in menu %}
-             <li class="nav-item">
+            <li class="nav-item">
               <a class="nav-link" data-toggle="pill" href="#c-{{ category.cat_id }}">{{ category.cat_name }}</a>
-            </li> 
+            </li>
           {% endfor %}
         </ul>
         <div class="tab-content">
@@ -169,7 +214,8 @@
   <!-- Menu End -->
 
   <!-- Team Start -->
-  <div class="team">
+
+  {% comment %} <div class="team">
     <div class="container">
       <div class="section-header text-center">
         <p>Our Team</p>
@@ -246,48 +292,49 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> {% endcomment %}
   <!-- Team End -->
 
   <!-- Testimonial Start -->
-  <div class="testimonial">
-    <h1 align="center">Testimonial</h1>
+  <div class="testimonial-section bg-light py-5">
     <div class="container">
+      <h2 class="text-center mb-5 text-primary">What Our Customers Say</h2>
       <div class="owl-carousel testimonials-carousel">
-        <div class="testimonial-item">
-          <div class="testimonial-img">
-            <img src="/static/img/testimonial-1.jpg" alt="Image" />
+        <div class="testimonial-item text-center p-4 shadow rounded bg-white">
+          <div class="testimonial-img mb-3">
+            <img src="/static/img/testimonial-1.jpg" alt="Emily Wilson" class="rounded-circle" width="80" height="80" />
           </div>
-          <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput</p>
-          <h2>Client Name</h2>
-          <h3>Profession</h3>
+          <p class="mb-3">“The food was absolutely delicious and delivered right on time. Highly recommend the Butter Chicken and Paneer Tikka!”</p>
+          <h5 class="mb-0">Emily Wilson</h5>
+          <small class="text-muted">Food Blogger</small>
         </div>
-        <div class="testimonial-item">
-          <div class="testimonial-img">
-            <img src="/static/img/testimonial-2.jpg" alt="Image" />
+        <div class="testimonial-item text-center p-4 shadow rounded bg-white">
+          <div class="testimonial-img mb-3">
+            <img src="/static/img/testimonial-2.jpg" alt="Rahul Mehta" class="rounded-circle" width="80" height="80" />
           </div>
-          <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput</p>
-          <h2>Client Name</h2>
-          <h3>Profession</h3>
+          <p class="mb-3">“Great variety of dishes at affordable prices. The website is easy to navigate and the service is excellent.”</p>
+          <h5 class="mb-0">Rahul Mehta</h5>
+          <small class="text-muted">Software Engineer</small>
         </div>
-        <div class="testimonial-item">
-          <div class="testimonial-img">
-            <img src="/static/img/testimonial-3.jpg" alt="Image" />
+        <div class="testimonial-item text-center p-4 shadow rounded bg-white">
+          <div class="testimonial-img mb-3">
+            <img src="/static/img/testimonial-3.jpg" alt="Sophia Lee" class="rounded-circle" width="80" height="80" />
           </div>
-          <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput</p>
-          <h2>Client Name</h2>
-          <h3>Profession</h3>
+          <p class="mb-3">“From packaging to taste, everything was perfect. This is my go-to place for ordering dinner on weekends!”</p>
+          <h5 class="mb-0">Sophia Lee</h5>
+          <small class="text-muted">Marketing Manager</small>
         </div>
-        <div class="testimonial-item">
-          <div class="testimonial-img">
-            <img src="/static/img/testimonial-4.jpg" alt="Image" />
+        <div class="testimonial-item text-center p-4 shadow rounded bg-white">
+          <div class="testimonial-img mb-3">
+            <img src="/static/img/testimonial-4.jpg" alt="Arjun Reddy" class="rounded-circle" width="80" height="80" />
           </div>
-          <p>Lorem ipsum dolor sit amet elit. Phasel nec preti mi. Curabit facilis ornare velit non vulput</p>
-          <h2>Client Name</h2>
-          <h3>Profession</h3>
+          <p class="mb-3">“Customer service was friendly and responsive. The online ordering experience was smooth and simple.”</p>
+          <h5 class="mb-0">Arjun Reddy</h5>
+          <small class="text-muted">Entrepreneur</small>
         </div>
       </div>
     </div>
   </div>
+
   <!-- Testimonial End -->
 {% endblock %}

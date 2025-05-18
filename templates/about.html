@@ -1,19 +1,12 @@
 {% extends 'base.html' %}
-<!-- About Us Start -->
-
 {% block content %}
+  <!-- === CSS Styling === -->
   <style>
-    /* General Styling */
-    .about,
-    .our-story,
-    .our-values,
-    .customer-reviews,
-    .cta {
+    .section {
       padding: 80px 0;
       background-color: #fff;
     }
     
-    /* Section Header */
     .section-header {
       text-align: center;
       margin-bottom: 50px;
@@ -22,7 +15,7 @@
     .section-header p {
       font-size: 18px;
       color: #e74c3c;
-      font-weight: bold;
+      font-weight: 600;
     }
     
     .section-header h2 {
@@ -31,73 +24,44 @@
       color: #333;
     }
     
-    /* About Section */
-    .about-img {
-      position: relative;
-      overflow: hidden;
-      border-radius: 10px;
-    }
-    
-    .about-img img {
-      width: 100%;
-      border-radius: 10px;
-    }
-    
-    .about-content {
-      text-align: left;
-    }
-    
-    .about-text p {
-      font-size: 16px;
-      color: #666;
-      line-height: 1.8;
-    }
-    
-    /* Book Table Button */
-    .btn.custom-btn {
-      background-color: #e74c3c;
-      color: #fff;
-      padding: 12px 20px;
-      border-radius: 5px;
-      font-size: 16px;
-      transition: 0.3s ease-in-out;
-      text-decoration: none;
-      display: inline-block;
-    }
-    
-    .btn.custom-btn:hover {
-      background-color: #c0392b;
-      color: #fff;
-    }
-    
-    /* Our Story */
+    .about-img img,
     .our-story img {
       width: 100%;
       border-radius: 10px;
     }
     
-    /* Our Values */
-    .value-item {
-      text-align: center;
+    .about-text p,
+    .our-story p {
+      font-size: 16px;
+      color: #555;
+      line-height: 1.8;
+    }
+    
+    .value-item,
+    .review-item {
       background: #f8f8f8;
       padding: 30px;
       border-radius: 10px;
+      text-align: center;
       transition: 0.3s ease-in-out;
     }
     
-    .value-item i {
-      font-size: 40px;
+    .value-item i,
+    .review-item i {
+      font-size: 35px;
       color: #e74c3c;
       margin-bottom: 15px;
     }
     
-    .value-item h3 {
+    .value-item h3,
+    .review-item h4 {
       font-size: 20px;
       color: #333;
       margin-bottom: 10px;
     }
     
-    .value-item p {
+    .value-item p,
+    .review-item p {
       font-size: 16px;
       color: #666;
     }
@@ -111,63 +75,41 @@
       color: #fff;
     }
     
-    /* Customer Reviews */
-    .review-item {
-      text-align: center;
-      background: #f8f8f8;
-      padding: 30px;
-      border-radius: 10px;
-      transition: 0.3s ease-in-out;
-    }
-    
-    .review-item i {
-      font-size: 30px;
-      color: #e74c3c;
-      margin-bottom: 10px;
-    }
-    
-    .review-item p {
-      font-size: 16px;
-      color: #666;
-      font-style: italic;
-    }
-    
-    .review-item h4 {
-      margin-top: 10px;
-      font-size: 18px;
-      color: #333;
-    }
-    
-    /* Call to Action */
     .cta {
       background: #e74c3c;
-      text-align: center;
-      padding: 50px 0;
       color: white;
+      padding: 60px 0;
+      text-align: center;
     }
     
     .cta h2 {
       font-size: 28px;
       font-weight: bold;
+      margin-bottom: 20px;
     }
     
-    .cta .btn.custom-btn {
-      background: white;
+    .btn.custom-btn {
+      background-color: #fff;
       color: #e74c3c;
+      border-radius: 5px;
+      padding: 12px 20px;
+      font-size: 16px;
+      text-decoration: none;
+      transition: 0.3s ease-in-out;
     }
     
-    .cta .btn.custom-btn:hover {
-      background: #f2f2f2;
+    .btn.custom-btn:hover {
+      background-color: #f2f2f2;
     }
   </style>
 
-  <div class="about">
+  <!-- === About Section === -->
+  <div class="section about">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-6">
           <div class="about-img">
             <img src="/static/img/about.jpg" alt="About FoodZone" />
-            <button type="button" class="btn-play" data-toggle="modal" data-src="https://www.youtube.com/embed/DWRcNpR6Kdc" data-target="#videoModal"><span></span></button>
           </div>
         </div>
         <div class="col-lg-6">
@@ -178,114 +120,107 @@
             </div>
             <div class="about-text">
               <p>
-                At <strong>FoodZone</strong>, we don’t just serve food—we serve experiences! Since our establishment in 1990, we have been dedicated to bringing you **authentic flavors, premium ingredients, and an unforgettable dining experience**.
+                <strong>FoodZone</strong> isn’t just a food delivery brand—it’s an experience of taste and tradition. Since 1990, we've been serving premium-quality meals crafted with passion, precision, and authentic flavors.
               </p>
-              <p>Our journey began with a simple mission: **to create a place where food lovers can indulge in delicious, high-quality meals in a warm and welcoming ambiance**. From mouthwatering burgers to crispy snacks and refreshing beverages, every item on our menu is crafted with love and precision.</p>
-              <p>We take pride in our **handpicked ingredients**, **traditional recipes**, and **innovative culinary techniques**. Our talented chefs bring years of expertise to ensure that every dish is packed with flavors that leave you wanting more.</p>
-              <p>Whether you're here for a casual meal, a family gathering, or a special occasion, FoodZone is your go-to destination for **great food and good times**.</p>
-              {% comment %} <a class="btn custom-btn" href="{% url 'book_table' %}">Book A Table</a> {% endcomment %}
+              <p>Whether you're craving a juicy burger, crispy snacks, or refreshing beverages, every dish is made using handpicked ingredients by chefs who care about your satisfaction.</p>
+              <p>Perfect for casual lunches, cozy family dinners, or special moments—FoodZone promises food that brings people together.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- About Us End -->
 
-  <!-- Our Story Start -->
-  <div class="our-story">
+  <!-- === Our Story Section === -->
+  <div class="section our-story">
     <div class="container">
       <div class="section-header text-center">
-        <h2>From a Small Kitchen to a Food Lovers' Paradise</h2>
+        <h2>From a Small Kitchen to Your Doorstep</h2>
       </div>
-      <div class="row">
+      <div class="row align-items-center">
         <div class="col-lg-6">
           <img src="/static/img/story.jpg" alt="Our Story" class="img-fluid rounded" />
         </div>
         <div class="col-lg-6">
-          <p>It all started in a small kitchen with a big dream—to serve food that **delights the senses and warms the heart**. Over the years, we have grown into a beloved dining spot where food lovers gather to enjoy meals made with passion and perfection.</p>
-          <p>Our journey has been fueled by our commitment to **quality, innovation, and customer satisfaction**. Today, we continue to push culinary boundaries, ensuring that every bite you take at FoodZone is a **flavorful adventure**.</p>
-          <p>Join us on this journey and become a part of the FoodZone family!</p>
+          <p>Our journey began with a passion for delivering warm meals and warm smiles. What started as a small local kitchen has now evolved into a trusted food delivery platform serving thousands of happy customers.</p>
+          <p>We believe food should be convenient without compromising on taste. With FoodZone, you can enjoy restaurant-quality meals at home—minus the wait and hassle.</p>
+          <p>Join us on this journey of redefining mealtime—delivered fresh, always fast.</p>
         </div>
       </div>
     </div>
   </div>
-  <!-- Our Story End -->
 
-  <!-- Our Values Start -->
-  <div class="our-values">
+  <!-- === Core Values Section === -->
+  <div class="section our-values">
     <div class="container">
-      <div class="section-header text-center">
+      <div class="section-header">
         <p>Why Choose Us</p>
         <h2>Our Core Values</h2>
       </div>
       <div class="row">
         <div class="col-md-4">
           <div class="value-item">
-            <i class="flaticon-quality"></i>
+            <i class="fa fa-star"></i>
             <h3>Premium Quality</h3>
-            <p>We use only the freshest and finest ingredients to craft our delicious dishes.</p>
+            <p>We believe in quality over everything. Every dish is made with top-notch ingredients.</p>
           </div>
         </div>
         <div class="col-md-4">
           <div class="value-item">
-            <i class="flaticon-chef"></i>
-            <h3>Expert Chefs</h3>
-            <p>Our chefs bring years of culinary expertise to ensure every meal is perfect.</p>
+            <i class="fa fa-user-tie"></i>
+            <h3>Experienced Chefs</h3>
+            <p>Our expert chefs use years of skill to deliver consistent, mouth-watering meals.</p>
           </div>
         </div>
         <div class="col-md-4">
           <div class="value-item">
-            <i class="flaticon-restaurant"></i>
-            <h3>Warm Ambiance</h3>
-            <p>A cozy and welcoming space for family, friends, and food lovers alike.</p>
+            <i class="fa fa-heart"></i>
+            <h3>Customer First</h3>
+            <p>Your happiness drives us. We’re here to serve meals that satisfy every bite.</p>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- Our Values End -->
 
-  <!-- Customer Reviews Start -->
-  <div class="customer-reviews">
+  <!-- === Testimonials Section === -->
+  <div class="section customer-reviews">
     <div class="container">
-      <div class="section-header text-center">
+      <div class="section-header">
         <p>What Our Customers Say</p>
         <h2>Testimonials</h2>
       </div>
       <div class="row">
         <div class="col-md-4">
           <div class="review-item">
-            <i class="flaticon-quote"></i>
-            <p>"FoodZone serves the best burgers in town! The flavors are rich, and the service is outstanding."</p>
+            <i class="fa fa-quote-left"></i>
+            <p>"Absolutely delicious! The food is always fresh and full of flavor."</p>
             <h4>- Sarah J.</h4>
           </div>
         </div>
         <div class="col-md-4">
           <div class="review-item">
-            <i class="flaticon-quote"></i>
-            <p>"A wonderful place to dine with family. The ambiance is great, and the food is always fresh!"</p>
+            <i class="fa fa-quote-left"></i>
+            <p>"Great variety, fast delivery, and exceptional service every time!"</p>
             <h4>- Michael T.</h4>
           </div>
         </div>
         <div class="col-md-4">
           <div class="review-item">
-            <i class="flaticon-quote"></i>
-            <p>"Highly recommended! The staff is friendly, and the food is simply delicious."</p>
+            <i class="fa fa-quote-left"></i>
+            <p>"My go-to place for comfort food. FoodZone never disappoints."</p>
             <h4>- Emily R.</h4>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- Customer Reviews End -->
 
-  <!-- Call to Action Start -->
+  <!-- === Call to Action Section === -->
   <div class="cta">
-    <div class="container text-center">
-      <h2>Come & Taste the Best Food in Town!</h2>
-      {% comment %} <a class="btn custom-btn" href="{% url 'book_table' %}">Book A Table</a> {% endcomment %}
+    <div class="container">
+      <h2>Ready to Order Your Favorite Meal?</h2>
+      <a class="btn custom-btn" href="{% url 'menu' %}">Explore Our Menu</a>
     </div>
   </div>
-  <!-- Call to Action End -->
 {% endblock %}

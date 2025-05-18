@@ -8,7 +8,8 @@ from .models import FoodBag
 from django.conf import settings
 from .forms import FoodItemForm
 from django.shortcuts import render
-from .models import Category  
+from .models import Category
+from django.db.models import Q
 
 
 def index(request):
@@ -53,19 +54,42 @@ def about(request):
     return render(request, "about.html")
 
 
-def team_members(request):
-    context = {}
-    members = Team.objects.all().order_by("name")
-    context = {"team_members": members}
-    return render(request, "team.html", context)
+# def team_members(request):
+#     context = {}
+#     members = Team.objects.all().order_by("name")
+#     context = {"team_members": members}
+#     return render(request, "team.html", context)
 
 
 def dishes(request, id):
     context = {}
-    dishes = Dish.objects.filter(category__id=id)
+
     dish_category = Category.objects.get(id=id).name
 
-    context.update({"dishes": dishes, "dish_category": dish_category})
+    sort_option = request.GET.get("sort", "name")
+    search_query = request.GET.get("q", "")
+    dishes = Dish.objects.filter(category__id=id, is_available=True)
+
+    if search_query:
+        dishes = dishes.filter(
+            Q(name__icontains=search_query) | Q(ingredients__icontains=search_query)
+        )
+
+    if sort_option == "price":
+        dishes = dishes.order_by("discounted_price")
+    elif sort_option == "price_desc":
+        dishes = dishes.order_by("-discounted_price")
+    else:
+        dishes = dishes.order_by("name")
+
+    context.update(
+        {
+            "dishes": dishes,
+            "dish_category": dish_category,
+            "query": search_query,
+            "sort": sort_option,
+        }
+    )
     return render(request, "dishes.html", context)
 
 
@@ -184,56 +208,77 @@ def user_logout(request):
 
 
 def single_dish(request, id):
-    context = {}
-    dish = get_object_or_404(Dish, id=id)
+    # Get the dish object based on the provided ID
+    dish = Dish.objects.get(id=id)
 
-    context = {"dish": dish}
-    return render(request, "dish.html", context)
+    # Get all dishes (you can modify this if needed)
+    dishes = Dish.objects.all()
+
+    # Get the category name (assuming 'category' is a related model)
+    dish_category = dish.category.name
+
+    # Split the ingredients in the view (before passing to template)
+    ingredients = dish.ingredients.split(",")  
+
+    # Render the template with all the necessary context
+    return render(
+        request,
+        "dish.html",
+        {
+            "dish": dish,
+            "dishes": dishes,
+            "dish_category": dish_category,
+            "ingredients": ingredients,  # Pass the split ingredients list
+        },
+    )
 
 
-@login_required
+@login_required(login_url="login")
 def foodbag(request):
     foodbag_items = FoodBag.objects.filter(user=request.user)
     total_price = sum(
-        item.dish.discounted_price * item.quantity for item in foodbag_items
+        (item.dish.discounted_price or 0) * item.quantity for item in foodbag_items
     )
+    cart_empty = not foodbag_items.exists()
 
     return render(
         request,
         "foodbag.html",
-        {"foodbag_items": foodbag_items, "total_price": total_price},
+        {
+            "foodbag_items": foodbag_items,
+            "total_price": total_price,
+            "cart_empty": cart_empty,
+        },
     )
 
 
 @login_required
 def remove_dish(request, id):
-    dish = get_object_or_404(Dish, id=id)
 
     # Find the dish in the user's food bag
-    food_item = FoodBag.objects.filter(user=request.user, dish=dish).first()
 
-    if food_item:
-        food_item.delete()
+    dish = get_object_or_404(Dish, id=id)
+    FoodBag.objects.filter(user=request.user, dish=dish).delete()
 
     return redirect("foodbag")
 
 
-@login_required
-def order(request, id):
+@login_required(login_url="login")
+def add_to_bag(request, id):
     dish = get_object_or_404(Dish, id=id)
 
     # Check if the item is already in the FoodBag
     foodbag_item, created = FoodBag.objects.get_or_create(user=request.user, dish=dish)
 
-    if not created:
-        foodbag_item.quantity += 1  # Increase quantity if it already exists
-        foodbag_item.save()
+    if created:
+        foodbag_item.quantity = 1  # Increase quantity if it already exists
+    else:
+        foodbag_item.quantity += 1
+    foodbag_item.save()
 
-    # messages.success(request, f"{dish.name} added to your Food Bag!")
     return redirect("foodbag")
 
 
-# for staff
 
 # Ensure only staff can access
 def is_admin(user):
@@ -280,3 +325,29 @@ def update_stock(request, food_id):
                 form = FoodItemForm(instance=food_item)
                 return render(request, "update_food.html", {"form": form})
     return render(request, "This permission is only for admin")
+
+
+@login_required(login_url="login")
+def order(request):
+    try:
+        user_profile = Profile.objects.get(user=request.user)
+        cart_items = FoodBag.objects.filter(user=request.user)
+
+        if not cart_items.exists():
+
+            return redirect("foodbag")  # Redirect to cart page
+
+        for item in cart_items:
+            Order.objects.create(
+                customer=user_profile,
+                item=item.dish,
+                status="confirmed",
+                payment_status="success",
+            )
+            item.delete()  
+
+        return redirect("order_summary") 
+
+    except Exception as e:
+
+        return redirect("foodbag")

@@ -93,7 +93,7 @@ a:focus {
 /**********************************/
 /*********** Nav Bar CSS **********/
 /**********************************/
-/* .navbar {
+.navbar {
     position: relative;
     transition: .5s;
     z-index: 999;
@@ -2112,3 +2112,6 @@ a:focus {
 .buttons {
     display: flex;
 }
+
+/* Custom admin styles */
+

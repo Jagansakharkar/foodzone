@@ -26,8 +26,8 @@
 
     {% block head %}
       <style>
-       
         /* Navbar container */
+        
         .custom-navbar {
           background: #f8f9fa;
           padding: 15px 20px;
@@ -37,7 +37,6 @@
           position: relative;
         }
         
-        /* Container */
         .custom-container {
           width: 100%;
           max-width: 1200px;
@@ -47,7 +46,6 @@
           justify-content: space-between;
         }
         
-        /* Brand */
         .custom-brand {
           font-size: 24px;
           font-weight: bold;
@@ -55,14 +53,12 @@
           color: #333;
         }
         
-        /* Navbar links */
         .custom-nav-links {
           display: flex;
           align-items: center;
           gap: 15px;
         }
         
-        /* Navbar items */
         .custom-nav-item {
           text-decoration: none;
           color: #333;
@@ -74,7 +70,6 @@
           color: #ff6600;
         }
         
-        /* Dropdown */
         .custom-dropdown {
           position: relative;
         }
@@ -112,7 +107,6 @@
           color: white;
         }
         
-        /* Toggler for mobile */
         .custom-toggler {
           background: none;
           border: none;
@@ -147,7 +141,6 @@
           top: 8px;
         }
         
-        /* Responsive */
         @media (max-width: 768px) {
           .custom-toggler {
             display: block;
@@ -168,6 +161,10 @@
             display: flex;
           }
         }
+        
+        .login_register_container {
+          display: flex;
+        }
       </style>
     {% endblock %}
   </head>
@@ -182,7 +179,7 @@
         <div class="custom-nav-links" id="navbarCollapse">
           <a href="{% url 'index' %}" class="custom-nav-item active">Home</a>
           <a href="{% url 'about' %}" class="custom-nav-item">About</a>
-          <a href="{% url 'team' %}" class="custom-nav-item">Our Team</a>
+          {% comment %} <a href="{% url 'team' %}" class="custom-nav-item">Our Team</a> {% endcomment %}
           <a href="{% url 'menu' %}" class="custom-nav-item">Menu</a>
           <a href="{% url 'contact' %}" class="custom-nav-item">Contact</a>
 
@@ -192,12 +189,11 @@
               <div class="custom-dropdown-menu">
                 {% if user.is_authenticated %}
                   {% if user.is_superuser or user.is_staff %}
-                    <a href="{% url 'manage_stock' %}" class="custom-dropdown-item">Manage Stock</a>
+                    {% comment %} <a href="{% url 'admin/' %}" class="custom-dropdown-item">Admin</a> {% endcomment %}
                   {% else %}
                     <a href="{% url 'dashboard' %}" class="custom-dropdown-item">Dashboard</a>
                   {% endif %}
                 {% endif %}
-                <a href="{% url 'logout' %}" class="custom-dropdown-item">Logout</a>
               </div>
             </div>
           {% else %}
@@ -214,8 +210,10 @@
             {% if user.is_authenticated %}
               <a href="{% url 'logout' %}" class="custom-dropdown-item">Logout</a>
             {% else %}
-              <a href="{% url 'login' %}" class="custom-dropdown-item">Login</a>
-              <a href="{% url 'register' %}" class="custom-dropdown-item">Register</a>
+              <div class="login_register_container">
+                <a href="{% url 'login' %}" class="custom-dropdown-item">Login</a>
+                <a href="{% url 'register' %}" class="custom-dropdown-item">Register</a>
+              </div>
             {% endif %}
           </div>
         </div>
@@ -227,68 +225,57 @@
     {% block content %}
 
     {% endblock %}
+
     <!-- Footer Start -->
-    <div class="footer">
+    <div class="footer text-black pt-5">
       <div class="container">
         <div class="row">
-          <div class="col-lg-7">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="footer-contact">
-                  <h2>Our Address</h2>
-                  <p>
-                    <i class="fa fa-map-marker-alt"></i>123 Street, New York, USA
-                  </p>
-                  <p>
-                    <i class="fa fa-phone-alt"></i>+012 345 67890
-                  </p>
-                  <p>
-                    <i class="fa fa-envelope"></i>info@example.com
-                  </p>
-                  <div class="footer-social">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="footer-link">
-                  <h2>Quick Links</h2>
-                  <a href="">Terms of use</a>
-                  <a href="">Privacy policy</a>
-                  <a href="">Cookies</a>
-                  <a href="">Help</a>
-                  <a href="">FQAs</a>
-                </div>
-              </div>
+    
+          <!-- Contact Info -->
+          <div class="col-md-4 mb-4">
+            <h4>Contact Us</h4>
+            <p><i class="fa fa-map-marker-alt me-2"></i>123 Food Street, City, Country</p>
+            <p><i class="fa fa-phone-alt me-2"></i>+123 456 7890</p>
+            <p><i class="fa fa-envelope me-2"></i>support@fooddelivery.com</p>
+            <div class="footer-social mt-2">
+              <a href="#"><i class="fab fa-facebook-f me-2"></i></a>
+              <a href="#"><i class="fab fa-instagram me-2"></i></a>
+              <a href="#"><i class="fab fa-twitter me-2"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in me-2"></i></a>
             </div>
           </div>
-          <div class="col-lg-5">
-            <div class="footer-newsletter">
-              <h2>Newsletter</h2>
-              <p>Lorem ipsum dolor sit amet elit. Quisque eu lectus a leo dictum nec non quam. Tortor eu placerat rhoncus, lorem quam iaculis felis, sed lacus neque id eros.</p>
-              <div class="form">
-                <input class="form-control" placeholder="Email goes here" />
-                <button class="btn custom-btn">Submit</button>
-              </div>
-            </div>
+    
+          <!-- Quick Links -->
+          <div class="col-md-4 mb-4">
+            <h4>Quick Links</h4>
+            <ul class="list-unstyled">
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Terms & Conditions</a></li>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Customer Support</a></li>
+            </ul>
           </div>
+    
+          <!-- Newsletter -->
+          <div class="col-md-4 mb-4">
+            <h4>Subscribe</h4>
+            <p>Get exclusive deals & latest offers straight to your inbox.</p>
+            <form class="d-flex">
+              <input type="email" class="form-control me-2" placeholder="Your email" required />
+              <button class="btn btn-primary" type="submit">Subscribe</button>
+            </form>
+          </div>
+    
         </div>
-      </div>
-      <div class="copyright">
-        <div class="container">
-          <p>
-            Copyright &copy; <a href="#">Your Site Name</a>, All Right Reserved.
-          </p>
-          <p>
-            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-          </p>
+    
+        <!-- Copyright -->
+        <div class="text-center mt-4 border-top pt-3">
+          <p class="mb-1">&copy; 2025 FoodDelivery. All rights reserved.</p>
+          
         </div>
       </div>
     </div>
+    
     <!-- Footer End -->
 
     <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
@@ -297,10 +284,10 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="/static/lib/easing/easing.min.js"></script>
-    <script src="/static/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="/static/lib/tempusdominus/js/moment.min.js"></script>
-    <script src="/static/lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="/static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    {% comment %} <script src="/static/lib/owlcarousel/owl.carousel.min.js"></script> {% endcomment %}
+    {% comment %} <script src="/static/lib/tempusdominus/js/moment.min.js"></script> {% endcomment %}
+    {% comment %} <script src="/static/lib/tempusdominus/js/moment-timezone.min.js"></script> {% endcomment %}
+    {% comment %} <script src="/static/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script> {% endcomment %}
 
     <!-- Contact Javascript File -->
     <script src="/static/mail/jqBootstrapValidation.min.js"></script>

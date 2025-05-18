@@ -2,40 +2,45 @@
 {% block content %}
   <div class="foodbag-container">
     <h2>Your Food Bag</h2>
-
-    <table class="foodbag-table">
-      <thead>
-        <tr>
-          <th>Dish</th>
-          <th>Quantity</th>
-          <th>Price</th>
-          <th>Total</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for item in foodbag_items %}
-          <tr data-item-id="{{ item.id }}" data-price="{{ item.dish.discounted_price }}">
-            <td>{{ item.dish.name }}</td>
-            <td>
-              <button class="qty-btn minus">-</button>
-              <input type="number" class="qty-input" value="{{ item.quantity }}" min="1" />
-              <button class="qty-btn plus">+</button>
-            </td>
-            <td>₹{{ item.dish.discounted_price }}</td>
-            <td class="item-total">₹{{ item.quantity|floatformat:0|add:item.dish.discounted_price }}</td>
-            <td>
-              <a href="{% url 'remove_dish' item.id %}" class="remove-btn">Remove</a>
-            </td>
+    <div class="table_container">
+      <table class="foodbag-table">
+        <thead>
+          <tr>
+            <th>Dish</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Total</th>
+            <th>Action</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-
+        </thead>
+        <tbody>
+          {% for item in foodbag_items %}
+            <tr data-item-id="{{ item.id }}" data-price="{{ item.dish.discounted_price }}">
+              <td>{{ item.dish.name }}</td>
+              <td>
+                <button class="qty-btn minus">-</button>
+                <input type="number" class="qty-input" value="{{ item.quantity }}" min="1" />
+                <button class="qty-btn plus">+</button>
+              </td>
+              <td>₹{{ item.dish.discounted_price }}</td>
+              <td class="item-total">₹{{ item.quantity|floatformat:0|add:item.dish.discounted_price }}</td>
+              <td>
+                <a href="{% url 'remove_dish' item.dish.id %}" class="remove-btn">Remove</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
     <h3 class="total-price">Total: ₹<span id="grandTotal">{{ total_price }}</span></h3>
 
     <div class="checkout-btn-container">
-      <button class="checkout-btn">Proceed to Payment</button>
+      {% if cart_empty %}
+        <a href="{% url 'menu' %}" class="btn btn-primary">Add Dishes</a>
+      {% else %}
+        <a class="checkout-btn" href="{% url 'order' %}">Proceed For Payment</a>
+        {% comment %}href="{% url 'proceed_payment' %}"{% endcomment %}
+      {% endif %}
     </div>
   </div>
 
@@ -57,6 +62,7 @@
     /* Table Styling */
     .foodbag-table {
       width: 100%;
+    
       border-collapse: collapse;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       background: #fff;
@@ -121,6 +127,9 @@
     
     .remove-btn:hover {
       background: #c0392b;
+    }
+    .table_container {
+      height: 50vh;
     }
     
     .checkout-btn-container {
